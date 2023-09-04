@@ -30,7 +30,17 @@ function interpolate_letter(percent, oldObj, newObj) {
   let new_letter = {};
   new_letter["size"]    = map(percent, 0, 100, oldObj["size"], newObj["size"]);
   new_letter["offsetx"] = map(percent, 0, 100, oldObj["offsetx"], newObj["offsetx"]);
-  new_letter["offsety"] = map(percent, 0, 100, oldObj["offsety"], newObj["offsety"]);
+
+  let new_percent = 0;
+  let amount_of_anticipation = 20;
+  if(percent < amount_of_anticipation) {
+    new_percent = map(percent, 0, amount_of_anticipation, 0, -10);
+  }
+  else {
+    new_percent = map(percent, amount_of_anticipation, 100, -10, 100);
+  }   
+  new_letter["offsety"] = map(new_percent, 0, 100, oldObj["offsety"], newObj["offsety"]);
+
   return new_letter;
 }
 
