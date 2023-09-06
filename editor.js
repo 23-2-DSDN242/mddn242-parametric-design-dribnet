@@ -5,31 +5,17 @@
  * ["object_field", minimum_bound, maximum_bound]
  */
 const sliderInfo = [
-  // ["size",       0, 100],
-  // ["offsetx",  -30,  30],
-  // ["offsety", -100, 100],
-  // ["quadPosX", 0, 100],
-  // ["quadPosY", 0, 200],
-  // ["quadRot", 0, 360],
-  // ["quad1Pt2X", 0, 100],
-  // ["quad1Pt2Y", 0, 200],
-  // ["quad1Pt3X", 0, 100],
-  // ["quad1Pt3Y", 0, 200],
-  // ["quad1Pt4X", 0, 100],
-  // ["quad1Pt4Y", 0, 200],
-  ["cirRot", 0, 360],
-  ["slant1", 0, 360],
-  // ["slant2Type", true, false],
-  ["rectTran1", 0, 100],
-  ["rectTranX2", -90, 90],
-  ["rectTranY2", -100, 100],
-  ["cirRad", 0, 80],
-  ["rectTran0", 0, 100],
-  ["rectLen", -50, 50],
-  ["rectGap", -50, 50],
-  ["rectWidth", 0, 3],
-  ["cirStroke", 0, 3],
-  ["coverCir", 0, 80],
+  ["size",       0, 100],
+  ["offsetx",  -30,  30],
+  ["offsety", -100, 100],
+  ["ellipsedistancever",  0,  100],
+  ["ellipsedistancehor",  0,  100],
+  ["ellipseheight1",  0,  100],
+  ["ellipseheight2",  0,  100],
+  ["triSize",  1,  3],
+  ["triOffsetx",  0,  100],
+  ["triOffsety",  0,  100],
+  ["triOffsety",  0,  100]
 ];
 
 // PROBABLY DON'T NEED TO EDIT ANYTHING ELSE. STOP HERE.
