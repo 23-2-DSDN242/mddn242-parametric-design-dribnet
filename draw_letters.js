@@ -16,17 +16,11 @@ const strokeColor  = "#03045e";
  * from (0,0) to (100, 200)
  */
 function drawLetter(letterData) {
-  push();
-
-  if('draw_scale' in letterData) {
-    scale(letterData['draw_scale']);
-  }
-
   // color/stroke setup
   stroke(strokeColor);
   strokeWeight(4);
 
-  // determine parameters for second circle
+  // parameters for circles
   let size1 = letterData["size"];
   let height1 =letterData["ellipseheight1"];
   let pos2x = 50  + letterData["offsetx"];
@@ -34,11 +28,12 @@ function drawLetter(letterData) {
   let distanceX = letterData["ellipsedistancehor"];
   let distanceY = letterData["ellipsedistancever"];
   let height2 =letterData["ellipseheight2"];
-//parameters for triangle
-  let size3 = letterData["triSize"];
+  //parameters for triangle
+  let size2 = letterData["triSize"];
   let pos3x = 50 + letterData["triOffsetx"];
   let pos3y = 110+ letterData["triOffsety"];
   let degrees = letterData["triRotation"];
+  let size3 = letterData["triSize2"];
   //parameters for lines
   let l1startX= letterData["line1startX"];
   let l1startY= letterData["line1startY"];
@@ -73,10 +68,10 @@ let horGapSize= 100/verNumLines+1.5
  for (let i = 0; i < horNumLines; i++) {
   line(0,0+(i*verGapSize),100,0+(i*verGapSize));
  }
-  //+(i*verGapSize)
+  
 
 for(let i=0; i<verNumLines; i++){
-  line(l1startX+(i*horGapSize),l1startY,l1endX,l1endY)//l1endY+(i*horGapSize));
+  line(l1startX+(i*horGapSize),l1startY,l1endX,l1endY);
 }
 
 for (let i = 0; i < verNumLines; i++) {
@@ -85,48 +80,38 @@ for (let i = 0; i < verNumLines; i++) {
 
 strokeWeight(0);
 fill("black");
-drawTriangle(pos3x,pos3y,size3,degrees);
+drawTriangle(pos3x,pos3y,size2,degrees);
+drawTriangle(50,175,size3,1.5,0)
 ellipse(pos2x,pos2y,size1,height1);
 ellipse(pos2x+distanceX,pos2y+distanceY,size1,height2);
 
-  pop();
+
 }
 
 function interpolate_letter(percent, oldObj, newObj) {
   let new_letter = {};
-  if(percent < 50) {
-    let draw_scale = map(percent, 0, 50, 1, 0);
-    new_letter["draw_scale"] = draw_scale;
-    percent = 0;
-  }
-  else {
-    let draw_scale = map(percent, 50, 100, 0, 1);
-    new_letter["draw_scale"] = draw_scale;
-    percent = 100;
-  }
+  //ellipses
   new_letter["size"]    = map(percent, 0, 100, oldObj["size"], newObj["size"]);
   new_letter["offsetx"] = map(percent, 0, 100, oldObj["offsetx"], newObj["offsetx"]);
   new_letter["offsety"] = map(percent, 0, 100, oldObj["offsety"], newObj["offsety"]);
-
-  new_letter["ellipsedistancehor"]    = map(percent, 0, 100, oldObj["ellipsedistancehor"], newObj["ellipsedistancehor"]);
-  new_letter["ellipsedistancever"]    = map(percent, 0, 100, oldObj["ellipsedistancever"], newObj["ellipsedistancever"]);
-  new_letter["ellipseheight1"]    = map(percent, 0, 100, oldObj["ellipseheight1"], newObj["ellipseheight1"]);
-  new_letter["ellipseheight2"]    = map(percent, 0, 100, oldObj["ellipseheight2"], newObj["ellipseheight2"]);
-
-  new_letter["triSize"]    = map(percent, 0, 100, oldObj["triSize"], newObj["triSize"]);
-  new_letter["triOffsetx"]    = map(percent, 0, 100, oldObj["triOffsetx"], newObj["triOffsetx"]);
-  new_letter["triOffsety"]    = map(percent, 0, 100, oldObj["triOffsetysize"], newObj["triOffsety"]);
-  new_letter["triRotation"]    = map(percent, 0, 100, oldObj["triRotation"], newObj["triRotation"]);
-
-  new_letter["line1startX"]    = map(percent, 0, 100, oldObj["line1startX"], newObj["line1startX"]);
-  new_letter["line1startY"]    = map(percent, 0, 100, oldObj["line1startY"], newObj["line1startY"]);
-  new_letter["line1endX"]    = map(percent, 0, 100, oldObj["line1endX"], newObj["line1endX"]);
-  new_letter["line1endY"]    = map(percent, 0, 100, oldObj["line1endY"], newObj["line1endY"]);
-
-  new_letter["line2startX"]    = map(percent, 0, 100, oldObj["line2startX"], newObj["line2startX"]);
-  new_letter["line2startY"]    = map(percent, 0, 100, oldObj["line2startY"], newObj["line2startY"]);
-  new_letter["line2endX"]    = map(percent, 0, 100, oldObj["line2endX"], newObj["line2endX"]);
-  new_letter["line2endY"]    = map(percent, 0, 100, oldObj["line2endY"], newObj["line2endY"]);
+  new_letter["ellipseheight1"] = map(percent, 0, 100, oldObj["ellipseheight1"], newObj["ellipseheight1"]);
+  new_letter["ellipseheight2"] = map(percent, 0, 100, oldObj["ellipseheight2"], newObj["ellipseheight2"]);
+  new_letter["ellipsedistancehor"] = map(percent, 0, 100, oldObj["ellipsedistancehor"], newObj["ellipsedistancehor"]);
+  new_letter["ellipsedistancever"] = map(percent, 0, 100, oldObj["ellipsedistancever"], newObj["ellipsedistancever"]);
+  //triangle
+  new_letter["triSize"] = map(percent, 0, 100, oldObj["triSize"], newObj["triSize"]);
+  new_letter["triOffsetx"] = map(percent, 0, 100, oldObj["triOffsetx"], newObj["triOffsetx"]);
+  new_letter["triOffsety"] = map(percent, 0, 100, oldObj["triOffsety"], newObj["triOffsety"]);
+  new_letter["triRotation"] = map(percent, 0, 100, oldObj["triRotation"], newObj["triRotation"]);
+  //lines
+  new_letter["line1startX"] = map(percent, 0, 100, oldObj["line1startX"], newObj["line1startX"]);
+  new_letter["line1startY"] = map(percent, 0, 100, oldObj["line1startY"], newObj["line1startY"]);
+  new_letter["line1endX"] = map(percent, 0, 100, oldObj["line1endX"], newObj["line1endX"]);
+  new_letter["line1endY"] = map(percent, 0, 100, oldObj["line1endY"], newObj["line1endY"]);
+  new_letter["line2startX"] = map(percent, 0, 100, oldObj["line2startX"], newObj["line2startX"]);
+  new_letter["line2startY"] = map(percent, 0, 100, oldObj["line2startY"], newObj["line2startY"]);
+  new_letter["line2endX"] = map(percent, 0, 100, oldObj["line2endX"], newObj["line2endX"]);
+  new_letter["line2endY"] = map(percent, 0, 100, oldObj["line2endY"], newObj["line2endY"]);
 
   return new_letter;
 }
