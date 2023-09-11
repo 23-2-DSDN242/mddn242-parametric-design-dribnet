@@ -1,12 +1,13 @@
 /* these are optional special variables which will change the system */
-var systemBackgroundColor = "black";
-var systemLineColor = "#000090";
+var systemBackgroundColor = "#f0f0ff";
+var systemLineColor = "#7f7f30";
 var systemBoxColor = "#00c800";
 
 /* internal constants */
 const darkBlue  = "#0077b6";
 const lightBlue  = "#90e0ef";
 const strokeColor  = "#03045e";
+const otherColor = "#000000";
 
 /*
  * Draw the letter given the letterData
@@ -33,7 +34,7 @@ function drawLetter(letterData) {
   let pos3x = 50 + letterData["triOffsetx"];
   let pos3y = 110+ letterData["triOffsety"];
   let degrees = letterData["triRotation"];
-  let size3 = letterData["triSize2"];
+  let triSize2 = letterData["triSize2"];
   //parameters for lines
   let l1startX= letterData["line1startX"];
   let l1startY= letterData["line1startY"];
@@ -47,7 +48,7 @@ function drawLetter(letterData) {
 
 
 
-stroke("white")
+stroke(otherColor)
 strokeWeight(2)
 let verNumLines= 9
 let horNumLines= 15
@@ -79,9 +80,16 @@ for (let i = 0; i < verNumLines; i++) {
 }
 
 strokeWeight(0);
-fill("black");
+fill(systemBackgroundColor);
+// debug color
+// fill(255, 255, 0);
 drawTriangle(pos3x,pos3y,size2,degrees);
-drawTriangle(50,175,size3,1.5,0)
+// fill(255, 0, 0);
+// the center of the rectangle is (50, 100)
+let pos4x = 50 - (pos3x - 50);
+let pos4y = 100 - (pos3y - 100);
+drawTriangle(pos4x,pos4y,triSize2,180-degrees)
+fill(systemBackgroundColor);
 ellipse(pos2x,pos2y,size1,height1);
 ellipse(pos2x+distanceX,pos2y+distanceY,size1,height2);
 
@@ -127,10 +135,8 @@ function drawTriangle(posx,posy,size,degrees){
 
 }
 
-
-
 var swapWords = [
-  "ABBAABBA",
+  "NOTHANAH",
   "CAB?CAB?",
   "BAAAAAAA"
 ]

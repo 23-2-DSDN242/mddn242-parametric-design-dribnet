@@ -13,9 +13,10 @@ const sliderInfo = [
   ["ellipseheight1",  0,  100],
   ["ellipseheight2",  0,  100],
   ["triSize",  1,  3],
-  ["triOffsetx",  0,  100],
-  ["triOffsety",  0,  100],
-  ["triOffsety",  0,  100]
+  ["triSize2",  0,  2],
+  ["triOffsetx",  -50,  50],
+  ["triOffsety",  -100,  100],
+  ["triRotation",  0,  360]
 ];
 
 // PROBABLY DON'T NEED TO EDIT ANYTHING ELSE. STOP HERE.
