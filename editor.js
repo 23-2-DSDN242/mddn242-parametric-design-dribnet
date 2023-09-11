@@ -5,18 +5,19 @@
  * ["object_field", minimum_bound, maximum_bound]
  */
 const sliderInfo = [
-  ["size",       0, 100],
-  ["offsetx",  -30,  30],
-  ["offsety", -100, 100],
-  ["ellipsedistancever",  0,  100],
-  ["ellipsedistancehor",  0,  100],
-  ["ellipseheight1",  0,  100],
-  ["ellipseheight2",  0,  100],
-  ["triSize",  1,  3],
-  ["triSize2",  0,  2],
-  ["triOffsetx",  -50,  50],
-  ["triOffsety",  -100,  100],
-  ["triRotation",  0,  360]
+  ["triangleX", 0, 200],
+  ["triangleY", 0, 200],
+  ["rect1X", 0, 200],
+  ["rect1Y", 0, 200],
+  ["rect2X", 0, 200],
+  ["rect2Y", 0, 200],
+  ["snakeX", -30, 200],
+  ["snakeY", 0, 200],
+  ["snakeLength", 0, 20],
+  ["snakeRot", 0, 360],
+  ["rect1Rot", 0, 360],
+  ["rect2Rot", 0, 360],
+  ["triangleRot", 0, 360]
 ];
 
 // PROBABLY DON'T NEED TO EDIT ANYTHING ELSE. STOP HERE.
@@ -29,6 +30,11 @@ if (typeof systemBackgroundColor === 'undefined') {
 
 // this will use variables if they are already defined
 // var systemBackgroundColor = systemBackgroundColor || "#e3eded";
+
+// for the background texture
+const BASE_R = 242;
+const BASE_G = 211;
+const BASE_B = 153;
 
 // if everything is defined above, this should just work
 function sliderToDataObject() {
@@ -51,10 +57,15 @@ const canvasHeight = 500;
 
 let debugBox = false;
 
+let backgroundPic;
+
 function setup () {
   // create the drawing canvas, save the canvas element
   main_canvas = createCanvas(canvasWidth, canvasHeight);
   main_canvas.parent('canvasContainer');
+
+  backgroundPic = createGraphics(canvasWidth, canvasHeight);
+  textured(30000); // now only runs once
 
   // rotation in degrees (more slider friendly)
   angleMode(DEGREES);
@@ -82,6 +93,7 @@ function buttonPressedEvent() {
 function draw () {
   // clear screen
   background(systemBackgroundColor);
+  image(backgroundPic, 0, 0);
 
   // compute the center of the canvas
   let center_x = canvasWidth / 2;
@@ -120,5 +132,39 @@ function keyTyped() {
     let obj = sliderToDataObject();
     json = JSON.stringify(obj, null, 2);
     console.log(json);
+  }
+}
+
+/**
+ * Function which makes background look textured and like an old piece of paper.
+ * @param density how old do you want the paper to look? AKA how many lines there are.
+ * @author inspired from Jonathan Freeman
+ * @link https://github.com/freethejazz/generative-watercolor/blob/develop/src/scripts/index.js
+ */
+function textured(density){
+  for(let i = 0; i < density; i++) {
+    backgroundPic.stroke(
+      BASE_R - Math.random() * 15,
+      BASE_G - Math.random() * 15,
+      BASE_B - Math.random() * 15
+    );
+
+    let x1 = Math.random() * canvasWidth;
+    let y1 = Math.random() * canvasHeight;
+    let theta = Math.random() * 2 * Math.PI;
+    let segmentLength = Math.random() * 5 + 2;
+    let x2 = Math.cos(theta) * segmentLength + x1;
+    let y2 = Math.sin(theta) * segmentLength + y1;
+
+    // make the edges darker for a 'worn out' vibe
+    if (x1 < 20 || x1 > (canvasWidth - 20) || y1 < 20 || y1 > (canvasHeight - 20)){
+      backgroundPic.stroke(
+        BASE_R - Math.random() * 35,
+        BASE_G - Math.random() * 35,
+        BASE_B - Math.random() * 35
+      )
+    }
+
+    backgroundPic.line(x1, y1, x2, y2);
   }
 }
