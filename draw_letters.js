@@ -69,7 +69,17 @@ function interpolate_letter(percent, oldObj, newObj) {
 
   new_letter["snakeLength"] = map(percent, 0, 200, oldObj["snakeLength"], newObj["snakeLength"]);
 
-  new_letter["snakeRot"] = map(percent, 0, 100, oldObj["snakeRot"], newObj["snakeRot"]);
+  let amplitude = 40;
+  let freq = 0.10;
+  if(percent < 50) {
+    amplitude = map(percent, 0, 50, 0, amplitude);
+  }
+  else {
+    amplitude = map(percent, 50, 100, amplitude, 0);
+  }
+  let wiggle_offset = amplitude * Math.sin(freq * percent);
+  // print(wiggle_offset);
+  new_letter["snakeRot"] = wiggle_offset + map(percent, 0, 100, oldObj["snakeRot"], newObj["snakeRot"]);
 
   new_letter["rect1Rot"] = map(percent, 0, 100, oldObj["rect1Rot"], newObj["rect1Rot"]);
   new_letter["rect2Rot"] = map(percent, 0, 100, oldObj["rect2Rot"], newObj["rect2Rot"]);
@@ -152,6 +162,8 @@ function drawSnake(numArcs, startX, startY, rotation) {
   noFill();
   stroke(brown);
   strokeWeight(5);
+  // debug color
+  // stroke(255, 0 , 0);
 
   for (let i = 0; i < numArcs; i++) {
     let x = i * (segmentSize + spacing);
@@ -179,7 +191,7 @@ function drawSnake(numArcs, startX, startY, rotation) {
       point(px, py);
     }
     // Draw the arc to create a curved appearance
-    //arc(x, y, segmentSize * 2, segmentSize * 2, startAngle, endAngle);
+    // arc(x, y, segmentSize * 2, segmentSize * 2, startAngle, endAngle);
   }
 
   // head
